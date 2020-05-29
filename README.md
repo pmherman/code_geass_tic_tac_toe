@@ -1,5 +1,5 @@
 # code_geass_tic_tac_toe
 
-#preview at
+preview at
 
 https://pmherman.github.io/code_geass_tic_tac_toe/
