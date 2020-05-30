@@ -54,12 +54,6 @@ h1 {
     font-size: 8rem;
     cursor: pointer;
 }
-.x {
-    color: red;
-}
-.o {
-    color: green;
-}
 #gameWin {
     padding: 15px;
     font-size: 4rem;

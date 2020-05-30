@@ -3,6 +3,7 @@ player1, player2,
 player1Score = 0, player2Score = 0,
 turn, choice, avatar1, avatar2;
 
+
 turnText = () => {
     document.getElementById('currentTurn').innerHTML = `Current Turn: ${turn}`;
 }
@@ -44,26 +45,34 @@ enterPlayerName = () => {
     turnText();
 }
 
-
+calcWinnerField = (value, v1, v2, v3) => {
+    let changeCell;
+    changeCell = document.querySelectorAll(`#area${v1}, #area${v2}, #area${v3}`);
+    if (value === true) {
+            for ( let i = 0; i < changeCell.length; i++ ) {
+                changeCell[i].style.backgroundColor = 'blue';
+            }
+    }
+}
 
 makeMove = (id, value) => {
     if (turn == player1) {
         document.getElementById(value).innerHTML = `<img src='./assets/images/${avatar1}.png' class='img-fluid'>`;
-        document.getElementById(value).classList.add('x');
-        piece = 'X'
+        piece = avatar1;
         document.getElementById(value).setAttribute('value', piece);
         document.getElementById(id).removeAttribute('onclick');
         let getValue = document.getElementById(value).getAttribute('value');
+        document.getElementById(value).classList.add(getValue);
         window[id] = getValue;
         turn = player2;
         turnText();
     } else {
         document.getElementById(value).innerHTML = `<img src='./assets/images/${avatar2}.png' class='img-fluid'>`;
-        document.getElementById(value).classList.add('o');
-        piece = 'O';
+        piece = avatar2;
         document.getElementById(value).setAttribute('value', piece);
         document.getElementById(id).removeAttribute('onclick');
         let getValue = document.getElementById(value).getAttribute('value');
+        document.getElementById(value).classList.add(getValue);
         window[id] = getValue;
         turn = player1;
         turnText();
@@ -85,6 +94,19 @@ makeMove = (id, value) => {
             turnText();
             player2Score = player2Score + 1;
         }
+
+        //Horizontal Winner Check
+        calcWinnerField(area1 === area2 && area2 === area3, "1", "2", "3");
+        calcWinnerField(area4 === area5 && area5 === area6, "4", "5", "6");
+        calcWinnerField(area7 === area8 && area8 === area9, "7", "8", "9");
+        //Vertical Winner Check
+        calcWinnerField(area1 === area4 && area4 === area7, "1", "4", "7");
+        calcWinnerField(area2 === area5 && area5 === area8, "2", "5", "8");
+        calcWinnerField(area3 === area6 && area6 === area9, "3", "6", "9");
+        //Diagonal Winner Check
+        calcWinnerField(area1 === area5 && area5 === area9, "1", "5", "9");
+        calcWinnerField(area3 === area5 && area5 === area7, "3", "5", "7");
+
         var s = document.querySelectorAll('.gamePiece');
         for (let i = 0; i < s.length; i++) {
             s[i].removeAttribute('onclick');
@@ -105,11 +127,14 @@ makeMove = (id, value) => {
         document.getElementById('gameWin').innerHTML = `IT'S A TIE. NO WINNER!`
         document.getElementById('gameWin').classList.add('gameTie');
         document.getElementById('playAgain').style.display = 'inline';
+        var s = document.querySelectorAll('.gamePiece');
+        for ( let i = 0; i < s.length; i++ ) {
+            s[i].style.backgroundColor = 'orange';
+        }
     }
 }
 
 resetGame = () => {
-    var s = document.querySelectorAll('.gamePiece');
     area1 = 1;
     area2 = 2;
     area3 = 3;
@@ -120,8 +145,10 @@ resetGame = () => {
     area8 = 8;
     area9 = 9;
     turnCount = 0;
+    var s = document.querySelectorAll('.gamePiece');
     for (var i = 0; i < s.length; i++) {
         s[i].setAttribute('onclick', 'makeMove(this.id, event.target.id)');
+        s[i].style.backgroundColor = 'black';
         s[i].innerHTML = `<span id='piece${i+1}' class='pieceArea'>&squ;</span>`
         s[i].classList.remove('x', 'o');
     }
