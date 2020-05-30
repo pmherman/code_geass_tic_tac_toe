@@ -154,4 +154,5 @@ resetGame = () => {
     }
     document.getElementById('gameWin').innerHTML = ``;
     document.getElementById('playAgain').style.display = 'none';
+    document.getElementById('gameWin').classList.remove('gameTie');
 }
